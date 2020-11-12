@@ -10,6 +10,7 @@ import GUI
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from openpyxl import load_workbook
+from Web import Get_img
 #APIC - Album PIC
 #TALB = Title Album
 #TDRC = 트랙년도 
@@ -66,6 +67,8 @@ def M_TagWrite(DIR,TAG,Text):
 	except MutagenError:
 		return
 
+	APIC_Flag=0
+
 	if TAG == 0:
 		id3["TIT2"] = TIT2(enconding=3,text=Text)
 	elif TAG ==1:
@@ -75,10 +78,13 @@ def M_TagWrite(DIR,TAG,Text):
 	elif TAG ==3:
 		id3["TDRC"] = TDRC(enconding=3,text=Text)
 	elif TAG ==4:
-		id3["APIC"] = APIC(enconding=3,text=Text)
+		id3["APIC"] = APIC(enconding=3,mime='image/jpeg',type=3,desc=u'Cover',data=open(Get_img(Text),'rb').read())
+		APIC_Flag=1
 	elif TAG ==5:
 		id3["TCOM"] = TCOM(enconding=3,text=Text)
 	id3.save(DIR)
+	if APIC_Flag==1:
+		os.remove(test.jpg)
 		
 def XYL_Writer(wb,DIR,num):
 	try:
