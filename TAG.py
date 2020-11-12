@@ -139,6 +139,6 @@ def XYL_Apply(DIR):
 		data=XYL_Reader(ws,i)
 		print(data[0])
 		for j in range(1,7):
-			if data[j] != '없음' and data[j] != '있음':
+			if data[j] != '없음':
 				M_TagWrite(data[0],j-1,data[j])
 
